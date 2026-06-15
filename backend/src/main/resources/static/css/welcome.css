@@ -1,0 +1,191 @@
+/* ============================================
+   WELCOME PAGE — Mobile First
+   ============================================ */
+
+.welcome-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+.welcome-container {
+    width: 100%;
+    max-width: min(90%, 700px);
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(20px, 4vw, 40px);
+}
+
+/* ============================================
+   ЛОГОТИП
+   ============================================ */
+.welcome-logo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logotype {
+    width: min(100%, 550px);
+    height: auto;
+}
+
+.subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(12px, 2.5vw, 18px);
+    color: #7B8FA1;
+    letter-spacing: 0.06em;
+    margin-top: clamp(2px, 0.8vw, 6px);
+    transform: translateX(5%);
+}
+
+/* ============================================
+   ОПИСАНИЕ
+   ============================================ */
+.welcome-description {
+    width: 100%;
+    max-width: min(95%, 580px);
+}
+
+.description-text {
+    font-weight: 500;
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.65;
+    color: var(--text-muted);
+    text-wrap: pretty;
+}
+
+/* ============================================
+   КНОПКА «НАЧАТЬ ЗАНЯТИЕ»
+   ============================================ */
+.welcome-action {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.start-btn {
+    background: linear-gradient(135deg, #FAD39C 0%, #F5C07A 100%);
+    color: #5C3A1E;
+    font-weight: 800;
+    font-size: clamp(16px, 2.5vw, 20px);
+    letter-spacing: 0.04em;
+    padding: clamp(14px, 2.5vw, 18px) clamp(24px, 5vw, 52px);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 16px rgba(200, 140, 50, 0.3);
+    width: min(100%, 360px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition:
+        background var(--transition),
+        color var(--transition),
+        transform var(--transition-fast),
+        box-shadow var(--transition);
+    animation: subtlePulseGradient 3s ease-in-out 0.5s 1;
+}
+
+.start-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.3) 50%,
+        transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+}
+
+.start-btn:hover {
+    background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-orange-hover) 100%);
+    color: var(--white);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-orange);
+}
+
+.start-btn:hover::after {
+    transform: translateX(100%);
+}
+
+.start-btn:active {
+    transform: translateY(1px) scale(0.96);
+    box-shadow: 0 2px 8px rgba(245, 166, 35, 0.3);
+}
+
+@keyframes subtlePulseGradient {
+    0%, 100% { box-shadow: 0 4px 16px rgba(200, 140, 50, 0.3); }
+    50% { box-shadow: 0 6px 24px rgba(220, 155, 60, 0.45); }
+}
+
+/* ============================================
+   АДАПТАЦИЯ — ПЛАНШЕТЫ (640px+)
+   ============================================ */
+@media (min-width: 640px) {
+    .subtitle {
+        transform: translateX(5%);
+    }
+
+    .start-btn {
+        width: auto;
+        min-width: 280px;
+        max-width: 400px;
+    }
+}
+
+/* ============================================
+   АДАПТАЦИЯ — НОУТБУКИ (1024px+)
+   ============================================ */
+@media (min-width: 1024px) {
+    .welcome-page {
+        padding: clamp(30px, 4vw, 60px);
+    }
+
+    .welcome-container {
+        max-width: 700px;
+    }
+
+    .logotype {
+        width: 550px;
+    }
+
+    .subtitle {
+        transform: translateX(8%);
+        font-size: 22px;
+    }
+
+    .description-text {
+        font-size: 18px;
+    }
+
+    .start-btn {
+        font-size: 20px;
+        padding: 18px 56px;
+    }
+}
+
+/* ============================================
+   АДАПТАЦИЯ — БОЛЬШИЕ ЭКРАНЫ (1440px+)
+   ============================================ */
+@media (min-width: 1440px) {
+    .welcome-container {
+        max-width: 750px;
+    }
+
+    .logotype {
+        width: 600px;
+    }
+
+    .subtitle {
+        transform: translateX(10%);
+    }
+}

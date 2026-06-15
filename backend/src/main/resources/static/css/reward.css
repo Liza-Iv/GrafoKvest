@@ -1,0 +1,235 @@
+/* ============================================
+   REWARD PAGE — Mobile First
+   ============================================ */
+
+.reward-page {
+    height: 100vh; height: 100dvh;
+    display: flex; flex-direction: column;
+    background: var(--bg-main);
+    overflow: hidden;
+}
+
+/* ----- КОНФЕТТИ ----- */
+.confetti-canvas { position: fixed; inset: 0; z-index: 200; pointer-events: none; }
+
+/* ----- ТЁМНЫЙ ЭКРАН ----- */
+.reveal-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: #1a1a2e;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.reveal-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.reveal-trophy-img {
+    width: clamp(120px, 30vw, 200px); height: clamp(120px, 30vw, 200px);
+    animation: revealTrophy 1s cubic-bezier(0.34,1.56,0.64,1) forwards;
+}
+@keyframes revealTrophy {
+    0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+    60% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ----- ШАПКА ----- */
+.reward-header {
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    flex-shrink: 0;
+    z-index: 100;
+}
+.header-inner {
+    width: min(95%, 1200px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(6px, 1vw, 12px) 0;
+    gap: clamp(8px, 1.5vw, 16px);
+}
+.logo-link { display: flex; align-items: center; }
+.header-logo { width: clamp(80px, 10vw, 120px); height: auto; }
+.header-right { display: flex; align-items: center; gap: clamp(4px, 0.8vw, 10px); }
+.icon-btn {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 40px; min-height: 40px;
+    border-radius: var(--radius-md);
+    transition: background 0.2s, transform 0.2s;
+}
+.icon-btn:hover { background: rgba(0,0,0,0.05); transform: scale(1.08); }
+.icon-btn img { width: clamp(20px, 2.5vw, 26px); height: clamp(20px, 2.5vw, 26px); }
+
+/* ----- ОСНОВНОЙ КОНТЕНТ ----- */
+.reward-container {
+    flex: 1;
+    width: min(95%, 1050px); margin: 0 auto;
+    padding: clamp(8px, 1.5vw, 16px);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 1.5vw, 20px);
+    overflow: hidden;
+}
+
+/* ----- КУБОК ----- */
+.trophy-wrapper { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+.trophy-icon {
+    width: clamp(150px, 25vw, 300px);
+    height: clamp(150px, 25vw, 300px);
+    object-fit: contain;
+    animation: trophyFloat 2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(245,176,65,0.35));
+}
+@keyframes trophyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ----- ПОЗДРАВЛЕНИЕ ----- */
+.congrats-block {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: clamp(6px, 1vw, 12px);
+    width: 100%; max-width: 520px;
+}
+.congrats-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800; color: #F5B041;
+    animation: titleGlow 2s ease-in-out infinite;
+    line-height: 1.1;
+    text-align: center; width: 100%;
+}
+@keyframes titleGlow {
+    0%, 100% { text-shadow: 0 2px 8px rgba(245,176,65,0.3); }
+    50% { text-shadow: 0 2px 20px rgba(245,176,65,0.6); }
+}
+.congrats-text {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(13px, 1.4vw, 16px);
+    font-weight: 500; color: var(--text-muted);
+    line-height: 1.3;
+}
+
+/* ----- КАРТОЧКА ЗАДАНИЙ ----- */
+.tasks-card {
+    width: 100%;
+    background: var(--white); border-radius: 16px;
+    padding: clamp(10px, 1.5vw, 18px);
+    box-shadow: var(--shadow-sm);
+    text-align: left;
+    flex-shrink: 0;
+}
+.tasks-card-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(15px, 1.8vw, 18px);
+    font-weight: 600; color: var(--text-dark);
+    margin-bottom: clamp(8px, 1vw, 12px);
+}
+.tasks-list { display: flex; flex-direction: column; gap: 8px; }
+
+.task-row {
+    display: flex; align-items: center; gap: clamp(8px, 1.2vw, 14px);
+    padding: clamp(6px, 0.8vw, 10px) clamp(10px, 1.2vw, 16px);
+    background: var(--bg-main); border-radius: 10px;
+}
+.task-check { width: 22px; height: 22px; flex-shrink: 0; }
+.task-name {
+    flex: 1;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-weight: 600; color: var(--text-dark);
+}
+.task-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 3px 8px; border-radius: 40px;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(11px, 1.2vw, 14px);
+    font-weight: 600; white-space: nowrap;
+    flex-shrink: 0;
+}
+.task-badge.easy { background: #E0F5E2; color: #2E6B32; }
+.task-badge.medium { background: #FFF8E1; color: #B8741E; }
+.task-badge.hard { background: #FFE0E0; color: #8A2C2C; }
+
+/* ----- КНОПКИ ----- */
+.reward-buttons {
+    display: flex; gap: clamp(8px, 1.2vw, 14px);
+    width: 100%; max-width: 520px;
+    flex-shrink: 0;
+}
+.reward-btn {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    padding: clamp(10px, 1.2vw, 14px) clamp(12px, 1.5vw, 20px);
+    border-radius: 40px; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 800;
+    font-size: clamp(13px, 1.5vw, 16px);
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.reward-btn:hover { transform: scale(1.03); }
+.reward-btn:active { transform: scale(0.96); }
+.reward-btn img { width: clamp(16px, 1.8vw, 20px); height: clamp(16px, 1.8vw, 20px); }
+
+.reward-btn-menu {
+    background: var(--white); color: var(--text-dark);
+    border: 2px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+}
+.reward-btn-menu:hover { border-color: var(--accent-green); box-shadow: var(--shadow-md); }
+
+.reward-btn-play {
+    background: var(--accent-green); color: var(--white);
+    box-shadow: 0 4px 14px rgba(76,175,80,0.3);
+}
+.reward-btn-play:hover { background: var(--accent-green-hover); box-shadow: 0 6px 22px rgba(76,175,80,0.4); }
+
+/* ============================================
+   ДЕСКТОП (768px+)
+   Кубок слева, текст справа.
+   Кубок по высоте = текстовый блок.
+   ============================================ */
+@media (min-width: 768px) {
+    .reward-container {
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+        gap: clamp(32px, 5vw, 56px);
+        padding: clamp(16px, 2vw, 24px);
+        max-height: calc(100dvh - 60px);
+    }
+    .trophy-wrapper {
+        flex: 0 0 auto;
+        display: flex; align-items: center;
+    }
+    .trophy-icon { width: clamp(240px, 26vw, 320px); height: auto; max-height: 65vh; }
+    .congrats-block {
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        max-width: 520px;
+        gap: clamp(10px, 1.5vw, 18px);
+    }
+    .congrats-title { text-align: center; }
+    .tasks-card { text-align: left; }
+    .task-name { font-size: clamp(15px, 1.5vw, 18px); }
+}
+
+/* ============================================
+   МОБИЛЬНЫЕ (< 480px)
+   Порядок: текст → кубок → список → кнопки
+   ============================================ */
+@media (max-width: 479px) {
+    .reward-page { overflow: hidden; }
+    .reward-container {
+        gap: 8px;
+        padding: 6px 10px;
+        justify-content: flex-start;
+    }
+    .congrats-title { font-size: clamp(22px, 6vw, 28px); }
+    .congrats-text { font-size: 12px; max-width: 100%; white-space: normal; }
+    .trophy-icon { width: clamp(120px, 40vw, 160px); height: clamp(120px, 40vw, 160px); }
+    .task-name { font-size: clamp(12px, 3vw, 14px); }
+    .task-badge { font-size: 10px; }
+    .reward-buttons { gap: 6px; }
+    .reward-btn { font-size: 12px; padding: 8px 10px; }
+}

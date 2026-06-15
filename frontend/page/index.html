@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#EFF3F8">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — развитие графомоторных навыков у детей через игровые задания">
+    <title>ГрафоКвест | Развиваем графомоторные навыки</title>
+
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Иконка для iOS -->
+    <link rel="apple-touch-icon" href=" image/decor/icon-192.png">
+
+    <!-- Стили (в правильном порядке: глобальные → компоненты → страница) -->
+    <link rel="stylesheet" href=" css/main.css">
+    <link rel="stylesheet" href=" css/dialog.css">
+    <link rel="stylesheet" href=" css/welcome.css">
+</head>
+<!-- ВРЕМЕННАЯ КНОПКА ДЛЯ ОТЛАДКИ — УДАЛИТЬ ПЕРЕД ДЕПЛОЕМ -->
+<div style="position: fixed; bottom: 16px; left: 16px; z-index: 9999;">
+    <button
+            onclick="localStorage.clear(); location.reload();"
+            style="background: #FF6B6B; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; cursor: pointer;"
+    >
+        🧹 Сбросить localStorage
+    </button>
+</div>
+<body class="welcome-page">
+
+<!-- ==================== ГЛОБАЛЬНАЯ КНОПКА НАСТРОЕК ==================== -->
+<button
+        class="global-settings-btn"
+        id="globalSettingsBtn"
+        aria-label="Открыть настройки"
+        title="Настройки"
+>
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <path d="M18 22.5C20.4853 22.5 22.5 20.4853 22.5 18C22.5 15.5147 20.4853 13.5 18 13.5C15.5147 13.5 13.5 15.5147 13.5 18C13.5 20.4853 15.5147 22.5 18 22.5Z" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M29.25 18C29.25 17.54 29.21 17.09 29.13 16.65L32.37 14.1C32.66 13.86 32.73 13.44 32.53 13.14L29.46 7.83C29.25 7.5 28.82 7.38 28.48 7.53L24.72 9.03C23.94 8.43 23.07 7.95 22.14 7.62L21.57 3.63C21.51 3.24 21.18 3 18 3C14.82 3 14.49 3.24 14.43 3.63L13.86 7.62C12.93 7.95 12.06 8.43 11.28 9.03L7.52 7.53C7.18 7.38 6.75 7.5 6.54 7.83L3.47 13.14C3.27 13.44 3.34 13.86 3.63 14.1L6.87 16.65C6.79 17.09 6.75 17.54 6.75 18C6.75 18.46 6.79 18.91 6.87 19.35L3.63 21.9C3.34 22.14 3.27 22.56 3.47 22.86L6.54 28.17C6.75 28.5 7.18 28.62 7.52 28.47L11.28 26.97C12.06 27.57 12.93 28.05 13.86 28.38L14.43 32.37C14.49 32.76 14.82 33 18 33C21.18 33 21.51 32.76 21.57 32.37L22.14 28.38C23.07 28.05 23.94 27.57 24.72 26.97L28.48 28.47C28.82 28.62 29.25 28.5 29.46 28.17L32.53 22.86C32.73 22.56 32.66 22.14 32.37 21.9L29.13 19.35C29.21 18.91 29.25 18.46 29.25 18Z" stroke="#172B4D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</button>
+
+<!-- ==================== ОСНОВНОЙ КОНТЕНТ ==================== -->
+<main class="welcome-container">
+    <!-- Логотип -->
+    <div class="welcome-logo">
+        <img
+                class="logotype"
+                src=" image/decor/logotype.png"
+                alt="ГрафоКвест"
+                width="600"
+                height="120"
+        >
+        <p class="subtitle">ИГРАЕМ — РУКУ РАЗВИВАЕМ</p>
+    </div>
+
+    <!-- Описание -->
+    <div class="welcome-description">
+        <p class="description-text">
+            Простые и полезные задания для детей. Всё, что нужно —
+            карандаши, бумага и немного времени вместе.
+            Приложение помогает родителям и специалистам
+            сделать занятия дома интересными и эффективными.
+        </p>
+    </div>
+
+    <!-- Кнопка -->
+    <div class="welcome-action">
+        <button
+                class="start-btn"
+                id="startBtn"
+                type="button"
+        >
+            НАЧАТЬ ЗАНЯТИЕ
+        </button>
+    </div>
+</main>
+
+<!-- ==================== ПОПАП АВТОРИЗАЦИИ ==================== -->
+<dialog
+        class="auth-dialog"
+        id="authDialog"
+        aria-labelledby="authDialogTitle"
+        aria-describedby="authDialogDesc"
+>
+    <!-- Заголовок -->
+    <div class="dialog-header">
+        <h3 id="authDialogTitle">Вход в аккаунт</h3>
+        <button
+                class="close-dialog"
+                id="closeDialogBtn"
+                aria-label="Закрыть окно"
+                type="button"
+        >
+            ✕
+        </button>
+    </div>
+
+    <p id="authDialogDesc" class="sr-only">
+        Войдите в существующий аккаунт или зарегистрируйте новый
+    </p>
+
+    <!-- Табы -->
+    <div class="tabs" role="tablist" aria-label="Выбор действия">
+        <button
+                class="tab-btn active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="loginTab"
+                id="loginTabBtn"
+                data-tab="login"
+                type="button"
+        >
+            Вход
+        </button>
+        <button
+                class="tab-btn"
+                role="tab"
+                aria-selected="false"
+                aria-controls="registerTab"
+                id="registerTabBtn"
+                data-tab="register"
+                type="button"
+        >
+            Регистрация
+        </button>
+    </div>
+
+    <!-- Панель входа -->
+    <div
+            id="loginTab"
+            class="tab-content active"
+            role="tabpanel"
+            aria-labelledby="loginTabBtn"
+    >
+        <form id="loginForm" novalidate>
+            <div class="input-group">
+                <label for="loginEmail">Email</label>
+                <input
+                        type="email"
+                        id="loginEmail"
+                        placeholder="example@mail.ru"
+                        autocomplete="email"
+                        required
+                >
+                <span class="error-message" id="loginEmailError"></span>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Пароль</label>
+                <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="пароль"
+                        autocomplete="current-password"
+                        required
+                        minlength="6"
+                >
+                <span class="error-message" id="loginPasswordError"></span>
+            </div>
+            <button
+                    class="submit-btn"
+                    id="loginBtn"
+                    type="submit"
+            >
+                Войти
+            </button>
+            <button
+                    class="google-btn"
+                    id="googleLoginBtn"
+                    type="button"
+            >
+                <svg width="20" height="20" aria-hidden="true">
+                    <image href=" image/icons/google-icon.png" width="20" height="20"/>
+                </svg>
+                Войти через Google
+            </button>
+        </form>
+    </div>
+
+    <!-- Панель регистрации -->
+    <div
+            id="registerTab"
+            class="tab-content"
+            role="tabpanel"
+            aria-labelledby="registerTabBtn"
+    >
+        <form id="registerForm" novalidate>
+            <!-- Выбор роли -->
+            <div class="input-group">
+                <label>Я —</label>
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" data-role="parent" id="roleParentBtn">
+                        Родитель
+                    </button>
+                    <button type="button" class="role-btn" data-role="specialist" id="roleSpecialistBtn">
+                        Специалист
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="regParentName">Имя</label>
+                <input type="text" id="regParentName" placeholder="Анна" autocomplete="given-name" required>
+                <span class="error-message" id="regParentNameError"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="regEmail">Email</label>
+                <input type="email" id="regEmail" placeholder="example@mail.ru" autocomplete="email" required>
+                <span class="error-message" id="regEmailError"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="regPassword">Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regPassword" placeholder="пароль - минимум 6 символов" autocomplete="new-password" required minlength="6">
+                    <button type="button" class="toggle-password" data-target="regPassword" aria-label="Показать пароль">
+                        👁
+                    </button>
+                </div>
+                <span class="error-message" id="regPasswordError"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="regConfirmPassword">Подтвердите пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regConfirmPassword" placeholder="повторите пароль" autocomplete="new-password" required minlength="6">
+                    <button type="button" class="toggle-password" data-target="regConfirmPassword" aria-label="Показать пароль">
+                        👁
+                    </button>
+                </div>
+                <span class="error-message" id="regConfirmPasswordError"></span>
+            </div>
+
+            <!-- Имя ребёнка — только для родителя -->
+            <div class="input-group" id="childNameGroup">
+                <label for="regChildName">Имя ребёнка</label>
+                <input type="text" id="regChildName" placeholder="Матвей" autocomplete="off" required>
+                <span class="error-message" id="regChildNameError"></span>
+            </div>
+
+            <button class="submit-btn" id="registerBtn" type="submit">Зарегистрироваться</button>
+            <button class="google-btn" id="googleRegisterBtn" type="button">
+                <svg width="20" height="20" aria-hidden="true">
+                    <image href=" image/icons/google-icon.png" width="20" height="20"/>
+                </svg>
+                Зарегистрироваться через Google
+            </button>
+        </form>
+    </div>
+</dialog>
+
+<!-- ==================== СКРИПТЫ ==================== -->
+<script src=" js/core/api.js"></script>
+<script src=" js/core/auth.js"></script>
+<script src=" js/page-specific/welcome.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#F2F6FA">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — главное меню. Выберите режим игры">
+    <title>ГрафоКвест | Главное меню</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href=" image/decor/icon-192.png">
+
+    <link rel="stylesheet" href=" css/main.css">
+    <link rel="stylesheet" href=" css/menu.css">
+</head>
+<body class="menu-page">
+
+<!-- PRELOADER -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-content">
+        <img src=" image/decor/logotype.png" alt="" class="loader-logo">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Загружаем меню...</p>
+    </div>
+</div>
+
+<!-- ШАПКА -->
+<header class="menu-header">
+    <div class="header-inner">
+        <a href="menu.html" class="logo-link" aria-label="ГрафоКвест — на главную">
+            <img src=" image/decor/logotype.png" alt="ГрафоКвест" class="header-logo">
+        </a>
+        <div class="header-right">
+            <button class="icon-btn" id="profileBtn" aria-label="Личный кабинет">
+                <img src=" image/icons/profile.png" alt="">
+            </button>
+            <button class="icon-btn" id="settingsBtn" aria-label="Настройки">
+                <img src=" image/icons/settings.png" alt="">
+            </button>
+            <div class="timer" id="timerDisplay" role="timer" aria-label="Оставшееся время">
+                <img src=" image/icons/timer-icon.png" alt="">
+                <span class="timer-text">05:00</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<main class="menu-container" id="menuContent">
+
+    <!-- Приветствие -->
+    <div class="greeting">
+        <p class="greeting-text">
+            <img src=" image/icons/wave.png" alt="" class="greeting-icon">
+            Привет, <span id="userNameSpan">родитель</span>!
+        </p>
+        <p class="greeting-subtitle">Выберите задание или начните свободную игру</p>
+    </div>
+
+    <!-- Три неактивных блока + стрелки -->
+    <div class="blocks-section">
+        <div class="blocks-row">
+
+            <div class="block-card inactive">
+                <img src=" image/icons/body-icon.png" alt="" class="block-icon">
+                <div class="block-info">
+                    <h3 class="block-title">ТЕЛО И ПРОСТРАНСТВО</h3>
+                    <p class="block-desc">ориентация в пространстве и на листе</p>
+                    <div class="block-lock">
+                        <img src=" image/icons/lock-icon.png" alt="">
+                        <span>скоро</span>
+                    </div>
+                </div>
+            </div>
+
+            <img src=" image/decor/Arrow_1.png" alt="" class="arrow-icon">
+
+            <div class="block-card inactive">
+                <img src=" image/icons/exercise-icon.png" alt="" class="block-icon">
+                <div class="block-info">
+                    <h3 class="block-title">ВЕСЁЛАЯ ЗАРЯДКА</h3>
+                    <p class="block-desc">крупная и мелкая моторика</p>
+                    <div class="block-lock">
+                        <img src=" image/icons/lock-icon.png" alt="">
+                        <span>скоро</span>
+                    </div>
+                </div>
+            </div>
+
+            <img src=" image/decor/Arrow_2.png" alt="" class="arrow-icon">
+
+            <div class="block-card inactive">
+                <img src=" image/icons/draw-icon.png" alt="" class="block-icon">
+                <div class="block-info">
+                    <h3 class="block-title">РИСУЕМ И ПИШЕМ</h3>
+                    <p class="block-desc">карандаш, линии, штриховка</p>
+                    <div class="block-lock">
+                        <img src=" image/icons/lock-icon.png" alt="">
+                        <span>скоро</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Активный блок «Свободная игра» -->
+    <div class="freeplay-card">
+        <div class="freeplay-top">
+            <img src=" image/icons/game-icon.png" alt="" class="freeplay-icon">
+            <div class="freeplay-header">
+                <h2 class="freeplay-title">Свободная игра</h2>
+                <div class="freeplay-stats">
+                    <div class="progress-stars">
+                        <div class="stars" id="starsContainer" aria-label="Прогресс выполнения заданий"></div>
+                        <span class="progress-text" id="progressFraction">0/5</span>
+                    </div>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar-fill" id="progressFill"></div>
+                        </div>
+                    </div>
+                    <span class="remaining-text" id="remainingText">Начните игру!</span>
+                </div>
+            </div>
+        </div>
+        <div class="freeplay-bottom">
+            <p class="freeplay-desc">
+                Развивает графомоторные навыки. Для детей и родителей вместе.
+                Всё, что нужно — карандаш, бумага и немного времени вместе.
+            </p>
+            <button class="play-btn" id="playBtn" type="button">
+                <img src="image/icons/play-icon.png" alt="">
+                ИГРАТЬ
+            </button>
+        </div>
+    </div>
+
+</main>
+
+<script src="js/core/api.js"></script>
+<script src="js/core/auth.js"></script>
+<script src="js/core/timer.js"></script>
+<script src="js/page-specific/menu.js"></script>
+</body>
+</html>

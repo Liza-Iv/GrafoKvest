@@ -1,0 +1,22 @@
+# Пароли и настройки
+application.properties
+*.log
+.env
+
+# Скомпилированные файлы
+target/
+*.class
+*.jar
+!backend/.mvn/wrapper/maven-wrapper.jar
+
+# IDEA
+.idea/
+*.iml
+out/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Node (если бы использовался)
+node_modules/

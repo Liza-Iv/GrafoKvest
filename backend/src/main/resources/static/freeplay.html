@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#EFF3F8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — Свободная игра">
+    <title>ГрафоКвест | Свободная игра</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="/image/decor/icon-192.png">
+    <link rel="icon" type="image/png" href="/image/decor/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dialog.css">
+    <link rel="stylesheet" href="css/freeplay.css">
+</head>
+
+<body class="freeplay-page">
+
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-content">
+        <img src="image/decor/logotype.png" alt="" class="loader-logo">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Загружаем задание...</p>
+    </div>
+</div>
+
+<header class="game-header" role="banner">
+    <div class="header-inner">
+        <button class="back-btn" id="backBtn" aria-label="Назад">
+            <img src="image/icons/back.png" alt="">
+        </button>
+        <a href="/menu.html" class="logo-link">
+            <img src="image/decor/logotype.png" alt="ГрафоКвест" class="header-logo">
+        </a>
+        <div class="header-right">
+            <button class="icon-btn" id="profileBtn" aria-label="Профиль">
+                <img src="image/icons/profile.png" alt="">
+            </button>
+            <button class="icon-btn" id="settingsBtn" aria-label="Настройки">
+                <img src="image/icons/settings.png" alt="">
+            </button>
+            <div class="timer" role="timer" aria-live="polite">
+                <img src="image/icons/timer-icon.png" alt="">
+                <span class="timer-text">05:00</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="game-container" id="gameContent" role="main" aria-label="Свободная игра">
+
+    <div class="error-block" id="errorBlock" style="display:none;">
+        <p>Не удалось загрузить задания.</p>
+        <button class="retry-btn" id="retryBtn">Попробовать снова</button>
+    </div>
+
+    <!-- Заголовок — aria-live assertive для screen reader -->
+    <div aria-live="assertive" aria-atomic="true">
+        <h1 class="task-title" id="taskTitle">Загрузка...</h1>
+    </div>
+
+    <div class="task-image-wrapper">
+        <img src="image/tasks/task_default.jpg" alt="Картинка задания" class="task-image" id="taskImage">
+    </div>
+
+    <div aria-live="polite" aria-atomic="true">
+        <p class="task-short" id="taskShort">Загружаем задание...</p>
+    </div>
+
+    <div class="action-buttons" id="actionButtons" style="display:none;">
+        <button class="action-btn action-speak" id="speakBtn" type="button" aria-label="Озвучить задание">
+            <img src="image/icons/speak.png" alt="" id="speakIcon" aria-hidden="true">
+            <span id="speakLabel">Озвучить</span>
+        </button>
+        <button class="action-btn action-random" id="randomBtn" type="button" aria-label="Новое задание">
+            <img src="image/icons/random.png" alt="" aria-hidden="true">
+            <span>Новое</span>
+        </button>
+        <button class="action-btn action-complete" id="completeBtn" type="button" aria-label="Отметить выполненным">
+            <img src="image/icons/complete.png" alt="" aria-hidden="true">
+            <span>Выполнил</span>
+        </button>
+    </div>
+
+    <div class="progress-section" id="progressSection" style="display:none;" role="region" aria-label="Прогресс" aria-live="polite">
+        <div class="magic-star" id="magicStar" aria-hidden="true"></div>
+        <div class="progress-top">
+            <div class="progress-stars">
+                <div class="stars" id="starsContainer" role="img" aria-label="Прогресс выполнения"></div>
+                <span class="progress-fraction" id="progressFraction">0/5</span>
+            </div>
+            <span class="progress-message" id="progressMessage">Начните!</span>
+        </div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-container" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="character-wrapper" id="characterWrapper" style="display:none;">
+        <div class="character-bubble" id="characterBubble">
+            <img src="" alt="Персонаж" class="character-image" id="characterImage">
+            <p class="character-speech" id="characterSpeech">Молодец!</p>
+        </div>
+    </div>
+</main>
+
+<button class="hint-btn" id="hintBtn" style="display:none;" aria-label="Инструкция для родителя">
+    <img src="image/icons/hint.png" alt="" aria-hidden="true">
+    <span class="hint-label">Родителям</span>
+</button>
+
+<dialog class="instruction-dialog" id="instructionDialog" aria-labelledby="dialogTitle" aria-describedby="dialogDesc">
+    <p id="dialogDesc" class="sr-only">Инструкция для родителя по выполнению задания</p>
+    <div class="dialog-header">
+        <h3 id="dialogTitle"></h3>
+        <button class="close-dialog" id="closeDialogBtn" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="dialog-body">
+        <div class="dialog-meta">
+            <div class="meta-item"><img src="image/icons/difficulty-easy.png" alt=""><span id="dialogDifficulty"></span></div>
+            <div class="meta-item"><img src="image/icons/timer.png" alt=""><span id="dialogTime"></span></div>
+        </div>
+        <div class="dialog-block"><div class="dialog-block-header"><img src="image/icons/box.png" alt=""><h4>Материалы</h4></div><p id="dialogMaterials"></p></div>
+        <div class="dialog-block"><div class="dialog-block-header"><img src="image/icons/parent-hint.png" alt=""><h4>Родителям</h4></div><p id="dialogHint"></p></div>
+        <div class="dialog-block"><div class="dialog-block-header"><img src="image/icons/speak-bubble.png" alt=""><h4>Ребёнку (озвучка)</h4></div><p id="dialogFullText"></p></div>
+        <div class="dialog-block"><div class="dialog-block-header"><img src="image/icons/brain.png" alt=""><h4>Что развивает</h4></div><p id="dialogDevelops"></p></div>
+    </div>
+    <button class="dialog-close-btn" id="dialogGotItBtn">ПОНЯТНО</button>
+</dialog>
+
+<script src="js/core/auth.js"></script>
+<script src="js/core/timer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/page-specific/freeplay.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+</script>
+</body>
+</html>

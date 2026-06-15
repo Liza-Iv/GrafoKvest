@@ -1,0 +1,326 @@
+/* ============================================
+   FREEPLAY PAGE — Mobile First
+   ============================================ */
+
+.freeplay-page {
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column;
+    background: var(--bg-main);
+    overflow: hidden;
+}
+
+/* ----- ШАПКА ----- */
+.game-header {
+    width: 100%; background: var(--white);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+    position: sticky; top: 0; z-index: 100; flex-shrink: 0;
+}
+.header-inner {
+    width: min(94%, 1200px); margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: clamp(6px, 1vw, 12px) 0; gap: clamp(8px, 1.5vw, 16px);
+}
+.back-btn {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px;
+    border-radius: var(--radius-md); transition: background 0.2s;
+}
+.back-btn:hover { background: rgba(0,0,0,0.05); }
+.back-btn img { width: clamp(20px, 2.5vw, 26px); height: clamp(20px, 2.5vw, 26px); }
+.logo-link { display: flex; align-items: center; flex-shrink: 0; }
+.header-logo { width: clamp(80px, 10vw, 120px); height: auto; }
+.header-right { display: flex; align-items: center; gap: clamp(4px, 1vw, 12px); flex-shrink: 0; }
+.icon-btn {
+    display: flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px;
+    border-radius: var(--radius-md); transition: background 0.2s, transform 0.2s;
+}
+.icon-btn:hover { background: rgba(0,0,0,0.05); transform: scale(1.08); }
+.icon-btn:active { transform: scale(0.93); }
+.icon-btn img { width: clamp(20px, 2.5vw, 26px); height: clamp(20px, 2.5vw, 26px); }
+.timer {
+    font-family: 'Inter', sans-serif; font-weight: 700;
+    font-size: clamp(12px, 1.6vw, 15px);
+    color: var(--accent-orange); background: rgba(245,166,35,0.1);
+    padding: clamp(4px, 0.6vw, 6px) clamp(6px, 1vw, 12px);
+    border-radius: 40px;
+    display: flex; align-items: center; gap: 4px; white-space: nowrap;
+    min-height: 32px;
+}
+.timer img { width: clamp(14px, 1.8vw, 18px); height: clamp(14px, 1.8vw, 18px); }
+
+/* ----- ОСНОВНОЙ КОНТЕНТ ----- */
+.game-container {
+    flex: 1;
+    width: min(94%, 1100px); margin: 0 auto;
+    padding: clamp(8px, 1.5vw, 16px);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center;
+    gap: clamp(8px, 1.5vw, 16px);
+    opacity: 0; transition: opacity 0.45s ease;
+    overflow: hidden;
+}
+.game-container.visible { opacity: 1; }
+
+/* ----- ОШИБКА ----- */
+.error-block { text-align: center; }
+.error-block p {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(16px, 2.5vw, 20px); color: var(--text-muted);
+    margin-bottom: 16px;
+}
+.retry-btn {
+    padding: 10px 20px; border-radius: 40px;
+    border: 2px solid var(--accent-orange); background: var(--white);
+    color: var(--accent-orange); font-family: 'Nunito', sans-serif;
+    font-weight: 700; font-size: 15px; cursor: pointer;
+}
+.retry-btn:hover { background: rgba(245,166,35,0.08); }
+
+/* ----- КАРТИНКА (КРУПНАЯ) ----- */
+.task-image-wrapper {
+    flex-shrink: 0;
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+}
+.task-image {
+    width: clamp(240px, 50vw, 380px);
+    height: clamp(240px, 50vw, 380px);
+    object-fit: cover;
+    border-radius: 20px;
+    background: #D9E6D5;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ----- ЗАГОЛОВОК ----- */
+.task-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(20px, 2.5vw, 26px);
+    font-weight: 800; color: var(--text-dark);
+    text-align: center;
+}
+
+/* ----- ТЕКСТ (бледный) ----- */
+.task-short {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(13px, 1.4vw, 15px);
+    font-weight: 500; color: var(--text-muted);
+    max-width: 450px; line-height: 1.5; text-align: center;
+}
+
+/* ----- КНОПКИ ДЕЙСТВИЙ ----- */
+.action-buttons {
+    display: flex; justify-content: center;
+    gap: clamp(8px, 1.5vw, 16px); flex-shrink: 0;
+}
+.action-btn {
+    display: flex; align-items: center; gap: clamp(6px, 1vw, 10px);
+    padding: clamp(10px, 1.2vw, 14px) clamp(14px, 2vw, 24px);
+    border-radius: 40px; border: none; cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 700;
+    font-size: clamp(13px, 1.6vw, 16px);
+    transition: opacity 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+    white-space: nowrap; min-height: 44px;
+    opacity: 0.55;
+}
+.action-btn:hover, .action-btn:focus-visible { opacity: 1; transform: translateY(-2px); }
+.action-btn:active { opacity: 1; transform: scale(0.95); }
+.action-btn img { width: clamp(18px, 2.5vw, 22px); height: clamp(18px, 2.5vw, 22px); }
+
+.action-speak { background: #E3F0FC; color: #2C5F8A; box-shadow: 0 3px 0 #B8D4F0; }
+.action-speak:hover { box-shadow: 0 5px 0 #9DC4E8; }
+.action-speak.speaking { opacity: 1; background: #FFE0E0; color: #8A2C2C; box-shadow: 0 3px 0 #F0B8B8; }
+
+.action-random { background: #FFF2E0; color: #B8741E; box-shadow: 0 3px 0 #F0D4A8; }
+.action-random:hover { box-shadow: 0 5px 0 #E8C898; }
+
+.action-complete { background: #E0F5E2; color: #2E6B32; box-shadow: 0 3px 0 #B8E0BC; }
+.action-complete:hover { box-shadow: 0 5px 0 #A0D8A8; }
+
+/* ----- ПРОГРЕСС ----- */
+.progress-section {
+    width: 100%; max-width: 420px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: clamp(4px, 0.6vw, 8px);
+    background: var(--white); border-radius: var(--radius-lg);
+    padding: clamp(8px, 1.2vw, 14px);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+}
+.progress-stars { display: flex; align-items: center; gap: clamp(6px, 1vw, 10px); }
+.stars { display: flex; gap: clamp(2px, 0.4vw, 4px); align-items: center; }
+.star-icon {
+    width: clamp(18px, 2.5vw, 24px); height: clamp(18px, 2.5vw, 24px);
+    transition: transform 0.3s ease;
+}
+.star-icon.filled { animation: starPop 0.4s ease; }
+@keyframes starPop {
+    0% { transform: scale(1); } 50% { transform: scale(1.5); } 100% { transform: scale(1); }
+}
+.progress-fraction {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(12px, 1.4vw, 14px); font-weight: 700; color: var(--text-muted);
+}
+.progress-bar-wrap { width: 100%; max-width: 240px; }
+.progress-bar-container {
+    background: #E0E0E0; border-radius: 40px;
+    height: clamp(4px, 0.7vw, 6px); width: 100%; overflow: hidden;
+}
+.progress-bar-fill {
+    background: linear-gradient(90deg, var(--accent-green) 0%, #6DD472 100%);
+    height: 100%; border-radius: 40px; width: 0%;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 0 6px rgba(76,175,80,0.3);
+}
+.progress-message {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(11px, 1.2vw, 13px); color: var(--text-muted); font-weight: 500;
+}
+
+/* ============================================
+   ВОЛШЕБНАЯ АНИМАЦИЯ ЗВЕЗДЫ
+   ============================================ */
+.magic-star {
+    position: fixed;
+    z-index: 200;
+    pointer-events: none;
+    animation: magicStarFly 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+@keyframes magicStarFly {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1.5);
+        filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.8));
+    }
+    30% {
+        opacity: 1;
+        transform: translate(calc(var(--dx) * 0.3), calc(var(--dy) * 0.3 - 40px)) scale(1.3);
+        filter: drop-shadow(0 0 30px rgba(255, 200, 0, 1));
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.1);
+        filter: drop-shadow(0 0 5px rgba(255, 200, 0, 0));
+    }
+}
+
+/* ============================================
+   КНОПКА РОДИТЕЛЯМ
+   ============================================ */
+.hint-btn {
+    position: fixed; bottom: clamp(12px, 2vw, 20px); right: clamp(12px, 2vw, 20px);
+    z-index: 50;
+    display: flex; align-items: center; gap: 6px;
+    padding: clamp(8px, 1vw, 10px) clamp(12px, 1.5vw, 16px);
+    border-radius: 40px;
+    border: 2px solid var(--border-light);
+    background: rgba(255,255,255,0.85); backdrop-filter: blur(6px);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif; font-weight: 600;
+    font-size: clamp(11px, 1.2vw, 13px); color: var(--text-muted);
+    opacity: 0.6; box-shadow: var(--shadow-sm);
+    transition: all 0.25s ease;
+}
+.hint-btn:hover {
+    opacity: 1;
+    border-color: var(--accent-orange);
+    background: var(--white);
+    color: var(--accent-orange);
+    box-shadow: 0 4px 16px rgba(245,166,35,0.3);
+    transform: translateY(-3px);
+}
+.hint-btn img { width: clamp(16px, 2vw, 20px); height: clamp(16px, 2vw, 20px); transition: transform 0.25s ease; }
+.hint-btn:hover img { transform: scale(1.1); }
+
+/* ============================================
+   ПОПАП
+   ============================================ */
+.instruction-dialog {
+    width: min(92%, 520px); border: none;
+    border-radius: var(--radius-xl);
+    padding: clamp(16px, 2.5vw, 28px);
+    background: var(--white); box-shadow: var(--shadow-lg);
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); margin: 0;
+    max-height: 85vh; max-height: 85dvh;
+    overflow-y: auto; overscroll-behavior: contain;
+}
+.instruction-dialog[open] {
+    animation: dialogPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes dialogPopIn {
+    from { opacity: 0; transform: translate(-50%,-48%) scale(0.92); }
+    to { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+.instruction-dialog::backdrop { background: rgba(0,0,0,0.45); backdrop-filter: blur(3px); }
+.dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.dialog-header h3 { font-size: clamp(20px, 3vw, 24px); font-weight: 700; }
+.close-dialog { font-size: 26px; color: var(--text-muted); padding: 4px 8px; border-radius: 50%; }
+.close-dialog:hover { color: var(--accent-coral); }
+.dialog-body { display: flex; flex-direction: column; gap: 12px; }
+.dialog-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+.meta-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 600; color: var(--text-muted);
+    background: var(--gray-light); padding: 6px 12px; border-radius: 40px;
+}
+.meta-item img { width: 20px; height: 20px; }
+.dialog-block { background: var(--bg-main); border-radius: var(--radius-md); padding: 12px 16px; }
+.dialog-block-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.dialog-block-header img { width: 22px; height: 22px; }
+.dialog-block-header h4 { font-size: 15px; font-weight: 700; }
+.dialog-block p { font-size: 14px; line-height: 1.5; color: var(--text-muted); margin: 0; }
+.dialog-close-btn {
+    width: 100%; margin-top: 16px; padding: 12px;
+    border-radius: 40px; border: none;
+    background: var(--accent-green); color: var(--white);
+    font-weight: 800; font-size: 16px; cursor: pointer;
+    min-height: 48px;
+}
+.dialog-close-btn:hover { background: var(--accent-green-hover); }
+
+/* ============================================
+   ДЕСКТОП (768px+) — ДВЕ КОЛОНКИ
+   ============================================ */
+@media (min-width: 768px) {
+    .game-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: clamp(24px, 4vw, 48px);
+        max-height: calc(100vh - 70px);
+    }
+    .task-image-wrapper { order: 0; flex: 0 0 auto; }
+    .task-image {
+        width: clamp(280px, 30vw, 380px);
+        height: clamp(280px, 30vw, 380px);
+    }
+    .task-title { order: 1; text-align: left; }
+    .task-short { order: 2; text-align: left; max-width: 400px; }
+    .action-buttons { order: 3; }
+    .progress-section { order: 4; }
+}
+
+/* ============================================
+   МОБИЛЬНЫЕ (< 480px)
+   ============================================ */
+@media (max-width: 479px) {
+    .freeplay-page { overflow: visible; }
+    .game-container {
+        justify-content: flex-start;
+        padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+        gap: clamp(6px, 1.5vw, 10px);
+        overflow-y: auto;
+    }
+    .task-image {
+        width: clamp(220px, 70vw, 300px);
+        height: clamp(220px, 70vw, 300px);
+    }
+    .action-btn { padding: 8px 12px; font-size: 12px; gap: 4px; }
+    .action-btn img { width: 16px; height: 16px; }
+    .hint-btn { bottom: 10px; right: 10px; padding: 8px 12px; }
+    .hint-label { display: none; }
+    .instruction-dialog { width: 95%; padding: 16px; }
+}

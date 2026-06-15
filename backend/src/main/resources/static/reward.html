@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#EFF3F8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — Награда">
+    <title>ГрафоКвест | Награда</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="/image/decor/icon-192.png">
+    <link rel="icon" type="image/png" href="/image/decor/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/reward.css">
+</head>
+
+<body class="reward-page">
+
+<!-- ТЁМНЫЙ ЭКРАН (появление) -->
+<div class="reveal-overlay" id="revealOverlay">
+    <div class="reveal-trophy">
+        <img src="image/icons/trophy.png" alt="" class="reveal-trophy-img">
+    </div>
+</div>
+
+<!-- КОНФЕТТИ -->
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+<!-- ШАПКА -->
+<header class="page-header" role="banner">
+    <div class="header-inner">
+        <a href="/menu.html" class="logo-link">
+            <img src="image/decor/logotype.png" alt="ГрафоКвест" class="header-logo">
+        </a>
+        <div class="header-right">
+            <button class="icon-btn" id="profileBtn" aria-label="Профиль">
+                <img src="image/icons/profile.png" alt="">
+            </button>
+            <button class="icon-btn" id="settingsBtn" aria-label="Настройки">
+                <img src="image/icons/settings.png" alt="">
+            </button>
+            <div class="timer" role="timer" aria-live="polite">
+                <img src="image/icons/timer-icon.png" alt="">
+                <span class="timer-text">05:00</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<main class="reward-container" id="rewardContent" role="main" aria-label="Награда">
+    <div class="trophy-wrapper">
+        <img src="image/icons/trophy.png" alt="Кубок награды" class="trophy-icon" id="trophyIcon">
+    </div>
+    <div class="congrats-block">
+        <h1 class="congrats-title" aria-live="polite">ПОЗДРАВЛЯЕМ!</h1>
+        <p class="congrats-text" id="congratsText"></p>
+        <div class="tasks-card" role="region" aria-label="Список выполненных заданий">
+            <h3 class="tasks-card-title">Твои задания:</h3>
+            <div class="tasks-list" id="tasksListContainer"></div>
+        </div>
+        <div class="reward-buttons">
+            <button class="reward-btn reward-btn-menu" id="menuBtn" aria-label="Вернуться в меню">
+                <img src="image/icons/home.png" alt=""> В меню
+            </button>
+            <button class="reward-btn reward-btn-play" id="playMoreBtn" aria-label="Играть ещё">
+                <img src="image/icons/play-icon.png" alt=""> Играть ещё
+            </button>
+        </div>
+    </div>
+</main>
+
+<!-- Аудио (скрытое) -->
+<audio id="applauseAudio" preload="auto" style="display:none;">
+    <source src="audio/applause.mp3" type="audio/mpeg">
+</audio>
+
+<script src="js/core/auth.js"></script>
+<script src="js/core/timer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/page-specific/reward.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+</script>
+</body>
+</html>

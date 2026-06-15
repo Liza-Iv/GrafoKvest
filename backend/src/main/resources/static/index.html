@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#EFF3F8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — развитие графомоторных навыков у детей через игровые задания">
+    <title>ГрафоКвест | Приветствие</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="/image/decor/icon-192.png">
+    <link rel="icon" type="image/png" href="/image/decor/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dialog.css">
+    <link rel="stylesheet" href="css/welcome.css">
+</head>
+<body class="welcome-page">
+
+<!-- Кнопка настроек -->
+<button class="global-settings-btn" id="globalSettingsBtn" aria-label="Настройки">
+    <img src="image/icons/settings.png" alt="">
+</button>
+
+<!-- Основной контент -->
+<main class="welcome-container">
+    <div class="welcome-logo">
+        <img class="logotype" src="image/decor/logotype.png" alt="ГрафоКвест">
+        <p class="subtitle">ИГРАЕМ — РУКУ РАЗВИВАЕМ</p>
+    </div>
+    <div class="welcome-description">
+        <p class="description-text">
+            Простые и полезные задания для детей. Всё, что нужно — карандаши, бумага и немного времени вместе.
+            Приложение помогает родителям и специалистам сделать занятия дома интересными и эффективными.
+        </p>
+    </div>
+    <div class="welcome-action">
+        <button class="start-btn" id="startBtn" type="button">НАЧАТЬ ЗАНЯТИЕ</button>
+    </div>
+</main>
+
+<!-- Попап входа / регистрации -->
+<dialog class="auth-dialog" id="authDialog" aria-labelledby="authDialogTitle">
+    <div class="dialog-header">
+        <h3 id="authDialogTitle">Вход в аккаунт</h3>
+        <button class="close-dialog" id="closeDialogBtn" aria-label="Закрыть">✕</button>
+    </div>
+
+    <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-tab="login">Вход</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-tab="register">Регистрация</button>
+    </div>
+
+    <!-- Форма входа -->
+    <div id="loginTab" class="tab-content active" role="tabpanel">
+        <form id="loginForm" novalidate>
+            <div class="input-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="example@mail.ru" autocomplete="email" required>
+                <span class="error-message" id="loginEmailError"></span>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" placeholder="Введите пароль (мин. 6 символов)" autocomplete="current-password" required minlength="6">
+                    <button type="button" class="toggle-password" data-target="loginPassword" aria-label="Показать пароль">👁</button>
+                </div>
+                <span class="error-message" id="loginPasswordError"></span>
+                <button type="button" class="forgot-password-btn" id="forgotPasswordBtn">Забыли пароль?</button>
+            </div>
+            <button class="submit-btn" id="loginBtn" type="submit">Войти</button>
+            <button class="google-btn" id="googleLoginBtn" type="button">G Войти через Google</button>
+        </form>
+    </div>
+
+    <!-- Форма регистрации -->
+    <div id="registerTab" class="tab-content" role="tabpanel">
+        <form id="registerForm" novalidate>
+            <div class="input-group">
+                <label>Я —</label>
+                <div class="role-selector">
+                    <button type="button" class="role-btn active" data-role="parent">Родитель</button>
+                    <button type="button" class="role-btn" data-role="specialist">Специалист</button>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="regParentName">Имя</label>
+                <input type="text" id="regParentName" placeholder="Анна" autocomplete="given-name" required>
+                <span class="error-message" id="regParentNameError"></span>
+            </div>
+            <div class="input-group">
+                <label for="regEmail">Email</label>
+                <input type="email" id="regEmail" placeholder="example@mail.ru" autocomplete="email" required>
+                <span class="error-message" id="regEmailError"></span>
+            </div>
+            <div class="input-group">
+                <label for="regPassword">Пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regPassword" placeholder="Придумайте пароль (мин. 6 символов)" autocomplete="new-password" required minlength="6">
+                    <button type="button" class="toggle-password" data-target="regPassword" aria-label="Показать пароль">👁</button>
+                </div>
+                <span class="error-message" id="regPasswordError"></span>
+            </div>
+            <div class="input-group">
+                <label for="regConfirmPassword">Подтвердите пароль</label>
+                <div class="password-wrapper">
+                    <input type="password" id="regConfirmPassword" placeholder="Повторите пароль" autocomplete="new-password" required minlength="6">
+                    <button type="button" class="toggle-password" data-target="regConfirmPassword" aria-label="Показать пароль">👁</button>
+                </div>
+                <span class="error-message" id="regConfirmPasswordError"></span>
+            </div>
+            <div class="input-group" id="childNameGroup">
+                <label for="regChildName">Имя ребёнка</label>
+                <input type="text" id="regChildName" placeholder="Матвей" autocomplete="off" required>
+                <span class="error-message" id="regChildNameError"></span>
+            </div>
+            <button class="submit-btn" id="registerBtn" type="submit">Зарегистрироваться</button>
+            <button class="google-btn" id="googleRegisterBtn" type="button">G Зарегистрироваться через Google</button>
+        </form>
+    </div>
+</dialog>
+
+<script src="js/core/auth.js"></script>
+<script src="js/page-specific/welcome.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+</script>
+</body>
+</html>
