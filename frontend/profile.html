@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#EFF3F8">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="format-detection" content="telephone=no, address=no">
+    <meta name="description" content="ГрафоКвест — Личный кабинет">
+    <title>ГрафоКвест | Личный кабинет</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" href="/image/decor/icon-192.png">
+    <link rel="icon" type="image/png" href="/image/decor/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dialog.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body class="profile-page">
+
+<!-- PRELOADER -->
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="loader-content">
+        <img src="image/decor/logotype.png" alt="" class="loader-logo">
+        <div class="loader-spinner"></div>
+        <p class="loader-text">Загружаем профиль...</p>
+    </div>
+</div>
+
+<!-- ШАПКА -->
+<header class="profile-header" role="banner" aria-label="Шапка">
+    <div class="header-inner">
+        <a href="/menu.html" class="logo-link" aria-label="ГрафоКвест">
+            <img src="image/decor/logotype.png" alt="ГрафоКвест" class="header-logo">
+        </a>
+        <div class="header-right">
+            <button class="icon-btn" id="settingsBtn" aria-label="Настройки">
+                <img src="image/icons/settings.png" alt="">
+            </button>
+            <div class="timer" role="timer" aria-label="Оставшееся время" aria-live="polite">
+                <img src="image/icons/timer-icon.png" alt="">
+                <span class="timer-text">00:00</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<main class="profile-container" id="profileContent">
+
+    <!-- Приветствие + кнопка редактирования -->
+    <div class="parent-name-row">
+        <h1 class="greeting-title">Здравствуйте, <span id="parentNameSpan" aria-live="polite">родитель</span>!</h1>
+        <button class="edit-name-btn" id="editParentNameBtn" aria-label="Редактировать имя родителя">
+            <img src="image/icons/edit.png" alt="">
+        </button>
+    </div>
+    <div class="children-list" id="childrenList" role="list" aria-label="Список детей"></div>
+
+    <!-- Секция семьи -->
+    <section class="family-section">
+        <div class="section-header">
+            <h2>Моя семья</h2>
+            <button class="add-parent-btn" id="addParentBtn" type="button">
+                <img src="image/icons/edit.png" alt=""> Добавить родителя
+            </button>
+        </div>
+        <div class="family-members-list" id="familyMembersList"></div>
+    </section>
+
+    <!-- Секция детей -->
+    <section class="children-section">
+        <div class="section-header">
+            <h2>Мои дети</h2>
+            <button class="add-child-btn" id="addChildBtn" type="button">
+                <img src="image/icons/edit.png" alt="">
+                <span>Добавить ребёнка</span>
+            </button>
+        </div>
+        <div class="children-list" id="childrenList"></div>
+    </section>
+
+    <!-- Статистика активного ребёнка -->
+    <section class="stats-section" id="statsSection">
+        <div class="stats-cards">
+            <div class="stat-card stat-today">
+                <h3>Сегодня</h3>
+                <div class="stat-bar-wrap">
+                    <div class="stat-bar-container">
+                        <div class="stat-bar-fill stat-bar-green" id="todayBar"></div>
+                    </div>
+                </div>
+                <p class="stat-text" id="todayText">0/5 заданий</p>
+            </div>
+            <div class="stat-card stat-week">
+                <h3>За неделю</h3>
+                <div class="stat-bar-wrap">
+                    <div class="stat-bar-container">
+                        <div class="stat-bar-fill stat-bar-blue" id="weekBar"></div>
+                    </div>
+                </div>
+                <p class="stat-text" id="weekText">0 заданий</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="stat-card stat-total">
+        <h3>Всего звёзд</h3>
+        <div class="stat-stars-big" id="totalStarsEl">0</div>
+        <p class="stat-text">за всё время</p>
+    </div>
+
+    <!-- Кнопки действий -->
+    <div class="action-buttons">
+        <button class="profile-btn profile-btn-primary" id="goToMenuBtn">
+            <img src="image/icons/play-icon.png" alt=""> К занятиям
+        </button>
+        <button class="profile-btn profile-btn-secondary" id="goToSettingsBtn">
+            <img src="image/icons/settings.png" alt=""> Настройки
+        </button>
+        <button class="profile-btn profile-btn-danger" id="logoutBtn">
+            Выйти
+        </button>
+    </div>
+</main>
+
+<!-- ПОПАП ДОБАВЛЕНИЯ РЕБЁНКА -->
+<dialog class="add-child-dialog" id="addChildDialog">
+    <div class="dialog-header">
+        <h3>Добавить ребёнка</h3>
+        <button class="close-dialog" id="closeAddChildDialog" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="dialog-body">
+        <div class="input-group"><label for="childName">Имя ребёнка</label><input type="text" id="childName" placeholder="Матвей" required><span class="error-message" id="childNameError"></span></div>
+        <div class="input-group"><label for="childAge">Возраст</label><input type="number" id="childAge" placeholder="5" min="1" max="12"></div>
+    </div>
+    <div class="dialog-actions">
+        <button class="dialog-btn dialog-btn-cancel" id="cancelAddChildBtn">Отмена</button>
+        <button class="dialog-btn dialog-btn-save" id="saveChildBtn">Сохранить</button>
+    </div>
+</dialog>
+
+<!-- ПОПАП РЕДАКТИРОВАНИЯ (родитель или ребёнок) -->
+<dialog class="edit-dialog" id="editNameDialog">
+    <div class="dialog-header">
+        <h3 id="editDialogTitle">Редактировать</h3>
+        <button class="close-dialog" id="closeEditDialog" aria-label="Закрыть">✕</button>
+    </div>
+    <div class="dialog-body">
+        <div class="input-group">
+            <label for="editNameInput">Имя</label>
+            <input type="text" id="editNameInput" placeholder="Анна" required>
+            <span class="error-message" id="editNameError"></span>
+        </div>
+        <!-- ✅ Поле возраста — показывается только для ребёнка -->
+        <div class="input-group" id="editAgeGroup" style="display:none;">
+            <label for="editAgeInput">Возраст</label>
+            <input type="number" id="editAgeInput" placeholder="5" min="1" max="12">
+        </div>
+    </div>
+    <div class="dialog-actions">
+        <button class="dialog-btn dialog-btn-cancel" id="cancelEditBtn">Отмена</button>
+        <button class="dialog-btn dialog-btn-save" id="saveEditBtn">Сохранить</button>
+    </div>
+</dialog>
+
+<!-- ПОПАП ДОБАВЛЕНИЯ РОДИТЕЛЯ -->
+<dialog class="edit-dialog" id="addParentDialog">
+    <div class="dialog-header"><h3>Добавить родителя</h3><button class="close-dialog" id="closeAddParentDialog" aria-label="Закрыть">✕</button></div>
+    <div class="dialog-body">
+        <div class="input-group"><label for="secondParentName">Имя</label><input type="text" id="secondParentName" placeholder="Павел" required><span class="error-message" id="secondParentError"></span></div>
+        <div class="input-group"><label for="secondParentRole">Кем приходится</label><select id="secondParentRole"><option value="father">Папа</option><option value="mother">Мама</option><option value="grandma">Бабушка</option><option value="grandpa">Дедушка</option></select></div>
+    </div>
+    <div class="dialog-actions"><button class="dialog-btn dialog-btn-cancel" id="cancelAddParentBtn">Отмена</button><button class="dialog-btn dialog-btn-save" id="saveParentBtn">Сохранить</button></div>
+</dialog>
+
+<!-- АНИМАЦИЯ СЕМЬИ -->
+<div class="family-animation" id="familyAnimation" style="display:none;">
+    <div class="family-members">
+        <div class="family-member mom">👩‍👧</div>
+        <div class="family-member dad">👨‍👧</div>
+        <div class="family-member child">🧒</div>
+    </div>
+    <p class="family-text">Семья в сборе!</p>
+</div>
+
+<script src="js/core/auth.js"></script>
+<script src="js/core/timer.js"></script>
+<script src="js/main.js"></script>
+<script src="js/page-specific/profile.js"></script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+    }
+</script>
+</body>
+</html>

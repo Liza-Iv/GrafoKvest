@@ -1,170 +1,220 @@
-// frontend/js/main.js (временно для отладки)
-class AuthModule {
-  constructor() {
-    this.dialog = document.getElementById('authDialog');
-    this.startBtn = document.getElementById('startBtn');
-    this.errorEl = document.getElementById('authError');
-    this.tabBtns = document.querySelectorAll('.tab-btn');
-    this.forms = document.querySelectorAll('.auth-form');
+/**
+ * Главный модуль приложения.
+ * Таймер, попап «Время вышло», быстрый выбор времени,
+ * офлайн-очередь синхронизации, глобальные настройки стилей.
+ */
+(function() {
+    'use strict';
 
-    this.init();
-  }
+    // ==================== ПОПАП «ВРЕМЯ ВЫШЛО» ====================
 
-  init() {
-    console.log('🚀 AuthModule инициализирован');
-
-    // Проверяем, что API доступен
-    if (!window.api) {
-      console.error('❌ API не загружен!');
-      return;
+    /** Создать попап если его ещё нет */
+    function ensureTimeoutDialog() {
+        if (document.getElementById('timeoutDialog')) return;
+        var dialog = document.createElement('dialog');
+        dialog.id = 'timeoutDialog';
+        dialog.className = 'timeout-dialog';
+        dialog.innerHTML =
+            '<img src="image/icons/timer-icon.png" alt="" class="timeout-dialog-icon">' +
+            '<h3>Время вышло!</h3>' +
+            '<p class="timeout-done" id="timeoutDoneText"></p>' +
+            '<div class="timeout-tasks-list" id="timeoutTasksList"></div>' +
+            '<p class="timeout-left" id="timeoutLeftText"></p>' +
+            '<p class="timeout-info"></p>' +
+            '<div class="timeout-buttons"></div>';
+        document.body.appendChild(dialog);
     }
 
-    console.log('✅ API доступен');
+    /** Показать попап с заданиями */
+    window.showTimeoutDialog = function(doneTasks, totalTime) {
+        ensureTimeoutDialog();
+        var dialog = document.getElementById('timeoutDialog');
 
-    this.startBtn.addEventListener('click', () => {
-      console.log('🟢 Кнопка нажата');
-      this.dialog.showModal();
-    });
+        document.getElementById('timeoutDoneText').textContent =
+            'Молодец! Выполнено заданий: ' + (doneTasks.length || 0);
+        document.getElementById('timeoutLeftText').textContent =
+            'Что не успел — можно доделать с родителями позже.';
 
-    this.dialog.querySelector('.auth-close').addEventListener('click', () => {
-      this.dialog.close();
-    });
+        // Список заданий
+        var tasksListEl = document.getElementById('timeoutTasksList');
+        if (doneTasks.length > 0) {
+            tasksListEl.innerHTML = doneTasks.map(function(t, i) {
+                return '<div class="timeout-task-row">' + (i + 1) + '. ' + t + '</div>';
+            }).join('');
+        } else {
+            tasksListEl.innerHTML = '';
+        }
 
-    this.dialog.addEventListener('click', (e) => {
-      if (e.target === this.dialog) this.dialog.close();
-    });
+        // Информация о времени
+        var infoEl = dialog.querySelector('.timeout-info');
+        var minutes = Math.floor((totalTime || 300) / 60);
+        infoEl.textContent = '⏱ ' + minutes + ' мин — рекомендовано СанПиН для детей 4-7 лет';
 
-    this.tabBtns.forEach(btn => {
-      btn.addEventListener('click', () => this.switchTab(btn.dataset.tab));
-    });
+        // Кнопки
+        var buttonsEl = dialog.querySelector('.timeout-buttons');
+        buttonsEl.innerHTML =
+            '<button class="timeout-btn timeout-btn-settings">⚙️ Выбрать время</button>' +
+            '<button class="timeout-btn timeout-btn-logout">👋 Выйти</button>';
 
-    this.forms.forEach(form => {
-      form.addEventListener('submit', (e) => this.handleSubmit(e, form));
-    });
-  }
+        buttonsEl.querySelector('.timeout-btn-settings').onclick = function() {
+            dialog.close();
+            window.location.href = '/settings.html';
+        };
+        buttonsEl.querySelector('.timeout-btn-logout').onclick = function() {
+            dialog.close();
+            if (typeof AuthService !== 'undefined') AuthService.logout();
+        };
 
-  switchTab(tab) {
-    console.log('🔄 Переключение на:', tab);
+        dialog.showModal();
+    };
 
-    this.tabBtns.forEach(b => {
-      const isActive = b.dataset.tab === tab;
-      b.classList.toggle('active', isActive);
-      b.setAttribute('aria-selected', isActive);
-    });
+    // ==================== ТАЙМЕР ====================
 
-    this.forms.forEach(f => {
-      f.classList.toggle('active', f.dataset.form === tab);
-    });
+    /** Инициализация таймера с автостартом */
+    function setupTimer() {
+        if (typeof TimerService === 'undefined') return;
 
-    this.errorEl.textContent = '';
-    this.errorEl.classList.remove('visible');
-  }
+        var children = [];
+        try { children = JSON.parse(localStorage.getItem('profileChildren') || '[]'); } catch(e) {}
+        var idx = parseInt(localStorage.getItem('activeChildIndex') || '0');
+        if (children.length > idx) TimerService.setChildId(children[idx].id);
 
-  async handleSubmit(e, form) {
-    e.preventDefault();
+        TimerService.onTimeUp(function(totalDuration) {
+            var completed = [];
+            try {
+                var raw = localStorage.getItem(getActiveCompletedKey());
+                if (raw) {
+                    var tasks = JSON.parse(raw);
+                    completed = tasks.slice(-5).map(function(t) { return t.title; });
+                }
+            } catch(e) {}
+            window.showTimeoutDialog(completed, totalDuration);
+        });
 
-    console.log('📤 Отправка формы:', form.dataset.form);
-
-    const formData = Object.fromEntries(new FormData(form));
-    console.log('📦 Данные:', formData);
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-
-    try {
-      submitBtn.textContent = 'ОБРАБОТКА...';
-      submitBtn.disabled = true;
-
-      if (form.dataset.form === 'login') {
-        const response = await window.api.login(formData.email, formData.password);
-        console.log('✅ Вход успешен:', response);
-
-        // Сохраняем токен
-        localStorage.setItem('accessToken', response.accessToken);
-
-        // Показываем успех
-        this.showError('✅ Вход выполнен!', 'success');
-
-        // Редирект через 1 секунду
-        setTimeout(() => {
-          window.location.href = '/menu.html';
-        }, 1000);
-
-      } else {
-        const response = await window.api.register(formData);
-        console.log('✅ Регистрация успешна:', response);
-
-        localStorage.setItem('accessToken', response.accessToken);
-        this.showError('✅ Регистрация успешна!', 'success');
-
-        setTimeout(() => {
-          window.location.href = '/menu.html';
-        }, 1000);
-      }
-
-    } catch (error) {
-      console.error('❌ Ошибка:', error);
-      this.showError(error.message);
-    } finally {
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
+        TimerService.init();
+        window.addEventListener('beforeunload', function() {
+            if (typeof TimerService !== 'undefined') TimerService.saveState();
+        });
     }
-  }
 
-  showError(message, type = 'error') {
-    this.errorEl.textContent = message;
-    this.errorEl.classList.add('visible');
-    this.errorEl.style.color = type === 'success' ? '#2ECC71' : '#E74C3C';
-  }
-}
+    /** Быстрый выбор времени по клику на таймер */
+    function setupQuickTimer() {
+        var timerEl = document.querySelector('.timer');
+        if (!timerEl) return;
 
-// Запуск при загрузке
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('📄 DOM загружен');
-  window.authModule = new AuthModule();
-});
+        timerEl.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var existing = document.querySelector('.quick-timer-popup');
+            if (existing) { existing.remove(); return; }
 
-/* ============================================
-   GLOBAL: PRELOADER (для всех страниц)
-   ============================================ */
-.page-loader {
-    position: fixed;
-    inset: 0;
-    background: var(--bg-main);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
-}
-.page-loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loader-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(12px, 2vw, 20px);
-}
-.loader-logo {
-    width: clamp(90px, 12vw, 130px);
-    height: auto;
-    animation: loaderPulse 2s ease-in-out infinite;
-}
-@keyframes loaderPulse {
-    0%, 100% { opacity: 0.35; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(1.04); }
-}
-.loader-spinner {
-    width: clamp(32px, 4vw, 44px);
-    height: clamp(32px, 4vw, 44px);
-    border: 3px solid var(--border-light);
-    border-top-color: var(--accent-orange);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader-text {
-    font-family: 'Nunito', sans-serif;
-    font-size: clamp(13px, 1.5vw, 15px);
-    color: var(--text-muted);
-    font-weight: 600;
-}
+            var popup = document.createElement('div');
+            popup.className = 'quick-timer-popup';
+
+            [{label:'5 мин',val:5},{label:'7 мин',val:7},{label:'10 мин',val:10},{label:'15 мин',val:15},{label:'Без таймера',val:0}].forEach(function(t) {
+                var btn = document.createElement('button');
+                btn.className = 'quick-time-btn';
+                btn.textContent = t.label;
+                btn.onclick = function() {
+                    if (t.val > 0) {
+                        TimerService.setDuration(t.val * 60);
+                        TimerService.start();
+                        TimerService.saveSettings({ duration: t.val * 60, autoStart: true });
+                    } else {
+                        TimerService.stop();
+                        TimerService.saveSettings({ duration: 0, autoStart: false });
+                    }
+                    popup.querySelectorAll('.quick-time-btn').forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    setTimeout(function() { popup.remove(); }, 300);
+                };
+                popup.appendChild(btn);
+            });
+
+            timerEl.appendChild(popup);
+            document.addEventListener('click', function closePopup() {
+                if (popup.parentNode) popup.remove();
+                document.removeEventListener('click', closePopup);
+            });
+        });
+    }
+
+    // ==================== ОФЛАЙН-СИНХРОНИЗАЦИЯ ====================
+
+    /** Очередь запросов, ожидающих интернет */
+    window.syncQueue = [];
+
+    /** Добавить запрос в офлайн-очередь */
+    window.addToSyncQueue = function(url, options) {
+        window.syncQueue.push({ url: url, options: options, timestamp: Date.now() });
+        localStorage.setItem('syncQueue', JSON.stringify(window.syncQueue));
+    };
+
+    /** Отправить накопленные запросы когда появился интернет */
+    window.processSyncQueue = function() {
+        var queue = [];
+        try { queue = JSON.parse(localStorage.getItem('syncQueue') || '[]'); } catch(e) {}
+        if (!queue.length) return;
+
+        queue.forEach(function(item) {
+            fetch(item.url, item.options).catch(function() { /* останется в очереди */ });
+        });
+
+        localStorage.removeItem('syncQueue');
+        window.syncQueue = [];
+    };
+
+    // Слушаем появление интернета
+    window.addEventListener('online', function() {
+        window.processSyncQueue();
+    });
+
+    // При загрузке: загрузить очередь и сразу отправить если онлайн
+    window.addEventListener('load', function() {
+        try { window.syncQueue = JSON.parse(localStorage.getItem('syncQueue') || '[]'); } catch(e) {}
+        if (navigator.onLine) window.processSyncQueue();
+    });
+
+    // ==================== ГЛОБАЛЬНЫЕ НАСТРОЙКИ СТИЛЕЙ ====================
+
+    /** Применить сохранённые настройки (контраст, крупный шрифт) */
+    function applyGlobalSettings() {
+        var children = [];
+        try { children = JSON.parse(localStorage.getItem('profileChildren') || '[]'); } catch(e) {}
+        var idx = parseInt(localStorage.getItem('activeChildIndex') || '0');
+        var childId = (children.length > idx) ? children[idx].id : null;
+        if (!childId) return;
+
+        var key = 'settings_child_' + childId;
+        try {
+            var raw = localStorage.getItem(key);
+            if (raw) {
+                var s = JSON.parse(raw);
+                document.body.classList.toggle('big-font', s.bigFont === true);
+                document.body.classList.toggle('large-icons', s.iconStyle === 'large');
+                document.body.classList.toggle('contrast-theme', s.colorTheme === 'contrast');
+            }
+        } catch(e) {}
+    }
+
+    /** Ключ выполненных заданий для активного ребёнка */
+    function getActiveCompletedKey() {
+        var children = [];
+        try { children = JSON.parse(localStorage.getItem('profileChildren') || '[]'); } catch(e) {}
+        var idx = parseInt(localStorage.getItem('activeChildIndex') || '0');
+        if (children.length > idx) return 'completedTasks_' + children[idx].id;
+        return 'completedTasks';
+    }
+
+    // ==================== ЗАПУСК ====================
+    function init() {
+        setupTimer();
+        applyGlobalSettings();
+        setupQuickTimer();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
