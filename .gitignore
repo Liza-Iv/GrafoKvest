@@ -1,5 +1,7 @@
-# Пароли и настройки
-application.properties
+# IDE
+.idea/
+*.iml
+
 *.log
 .env
 
@@ -8,11 +10,6 @@ target/
 *.class
 *.jar
 !backend/.mvn/wrapper/maven-wrapper.jar
-
-# IDEA
-.idea/
-*.iml
-out/
 
 # Системные файлы
 .DS_Store
